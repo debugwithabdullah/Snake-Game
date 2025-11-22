@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background-color: #444343;
+        color: white;
+
+    }
+
+    .game {
+        position: relative;
+        border: 3px solid #687e48;
+        border-radius: 10px;
+        box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.302);
+
+    }
+
+    #endScr {
+        position: absolute;
+        height: 20rem;
+        width: 20rem;
+        border-radius: 1rem;
+        background-color: #849966d4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 2rem;
+        box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.577);
+        top: 39%;
+
+    }
+
+    #restart {
+        height: 3.4rem;
+        width: 11rem;
+        background-color: #5E8DD4;
+        border: none;
+        border-radius: 0.3rem;
+        cursor: pointer;
+        color: white;
+        font-size: 1.5rem;
+        box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.721);
+    }
+
+    #restart:hover {
+        background-color: #9ebbe5;
+        color: black;
+    }
+
+    .debugArea {
+        position: absolute;
+        right: 4rem;
+        font-size: 2rem;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 2rem;
+        background-color: rgba(0, 0, 0, 0.511);
+        padding: 2rem;
+        border-radius: 1rem;
+    }
+
+    #myCheck {
+        height: 2rem;
+        width: 2rem;
+        cursor: pointer;
+    }
+
+    #timeSlider {
+        cursor: pointer;
+    }
+
+    /* Mobile  */
+    #diedTxt {
+        font-size: 2.2rem;
+    }
+
+    /* Animations */
+    .animation-pop {
+        animation: pop 0.4s ease;
+    }
+
+    @keyframes pop {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.2);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    @keyframes popDown {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(0.8);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .ripple {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        background: rgba(255, 255, 255, 0.426);
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0.5;
+        animation: rippleAnim 450ms ease-out;
+    }
+
+    @keyframes rippleAnim {
+        to {
+            transform: translate(-50%, -50%) scale(1.5);
+            opacity: 0;
+        }
+    }
+
+    /* ------------------------------------------ */
+    #scoreText {
+        font-size: 2rem;
+        background-color: rgba(168, 216, 96, 0.324);
+        padding: 0.7rem 1.3rem;
+        border-radius: 0.5rem;
+    }
+
+    .Screen {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .endScoreText {
+        font-size: 1.6rem;
+
+    }
+
+    #endScoreText {
+        color: rgb(218, 218, 218);
+    }
+
+    .inputButtons {
+        display: none;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+
+    }
+
+    .UIbtn {
+        height: 5rem;
+        width: 5rem;
+        background-color: #5E8DD4;
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        z-index: 9999;
+    }
+
+    .UIbtn:active {
+        animation: popDown 0.1s ease;
+    }
+
+    .verticalBtn {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .horizontalBtn {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    #imgLeftBtn {
+        transform: rotate(180deg);
+    }
+
+    #imgTopBtn {
+        transform: rotate(-90deg);
+    }
+
+    #imgDownBtn {
+        transform: rotate(90deg);
+    }
+
+    #imgRightBtn {
+        transform: rotate(0deg);
+    }
+
+    #highScoreText {
+        font-size: 2rem;
+        background-color: rgba(0, 0, 0, 0.324);
+        padding: 0.7rem 1.3rem;
+        border-radius: 0.5rem;
+    }
+
+    .stats {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        flex-direction: row;
+    }
+
+    @media (max-width: 786px) {
+
+        #endScr {
+            width: 12rem;
+            height: 12rem;
+            gap: 1.1rem;
+            box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.577);
+            top: 25%;
+        }
+
+        .debugArea {
+            display: none;
+        }
+
+        #diedTxt {
+            font-size: 1.5rem;
+        }
+
+        #restart {
+            height: 2.6rem;
+            width: 6rem;
+            font-size: 1rem;
+            box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.548);
+        }
+
+        #scoreText {
+            font-size: 1.5rem;
+        }
+
+        .endScoreText {
+            font-size: 1rem;
+        }
+
+        .inputButtons {
+            display: flex;
+        }
+
+        #highScoreText {
+            font-size: 1.4rem;
+            background-color: rgba(0, 0, 0, 0.324);
+            padding: 0.7rem 1.3rem;
+            border-radius: 0.5rem;
+        }
+    }
+</style>
+
+<body>
+
+    <div class="Screen">
+
+        <!-- Game Interface -->
+        <div class="stats">
+            <p id="scoreText">Score: <span id="score">0</span></p>
+            <p id="highScoreText">HighScore: <span id="highScore">0</span></p>
+        </div>
+
+        <canvas id="game" class="game"></canvas>
+
+        <!-- Game end screen -->
+        <div id="endScr">
+            <p id="diedTxt">Died!</p>
+            <p class="endScoreText"> Score: <span id="endScoreText"></span></p>
+            <button id="restart">Restart</button>
+        </div>
+
+
+        <!-- Debug Menu -->
+        <div class="debugArea">
+            <input type="checkbox" id="myCheck">
+            <label for="myCheck">Grid Off</label>
+        </div>
+
+
+        <!-- Mobile controls here! -->
+        <div class="inputButtons">
+
+            <div class="horizontalBtn">
+                <div class="UIbtn" id="btnLeft">
+                    <img height="20" id="imgLeftBtn" src="arrow.png">
+                </div>
+            </div>
+
+            <div class="verticalBtn">
+                <div class="UIbtn" id="btnTop">
+                    <img height="20" id="imgTopBtn" src="arrow.png">
+                </div>
+                <div class="UIbtn" id="btnDown">
+                    <img height="20" id="imgDownBtn" src="arrow.png">
+                </div>
+            </div>
+            <div>
+                <div class="UIbtn" id="btnRight">
+                    <img height="20" id="imgRightBtn" src="arrow.png">
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- Sounds -->
+    <audio id="popSfx" src="pop1.mp3"></audio>
+    <audio id="overSfx" src="over.mp3"></audio>
+
+    </div>
+
+
+</body>
+<script src="main.js"></script>
+
+</html>

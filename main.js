@@ -29,7 +29,7 @@ canvas.height = size
 
 //Game Variables
 let gridWidth = size / oneBlock
-const frameDelay = 80
+const frameDelay = 150
 let snakeDied = false
 let capturedFood = false
 let snakePos = [{ X: 100, Y: 100, dir: "0" }, { X: 0, Y: 0, dir: "0" }]
@@ -372,4 +372,5 @@ function mobileRipple(btn) {
             ripple.remove();
         }, 450);
     }, { passive: true });
+
 }
